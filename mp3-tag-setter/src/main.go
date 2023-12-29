@@ -2,10 +2,11 @@ package main
 
 import (
 	"log"
-	"mp3-tag-setter/src/config"
-	"mp3-tag-setter/src/fileprocessor"
 	"os"
 	"path"
+
+	"github.com/enaldo1709/scripts/mp3-tag-setter/src/config"
+	"github.com/enaldo1709/scripts/mp3-tag-setter/src/fileprocessor"
 )
 
 var ()
@@ -16,6 +17,8 @@ func main() {
 	}
 	var metafilepath string
 	var dirpath string
+	var generateTemplate bool = false
+	var askForTemplate bool = false
 
 	for i, arg := range os.Args {
 		if arg == "-d" {
@@ -24,6 +27,14 @@ func main() {
 		if arg == "-m" {
 			metafilepath = os.Args[i+1]
 		}
+		if arg == "--generate-template" {
+			for _, arg2 := range os.Args {
+				if arg2 == "-y" || arg2 == "-a" || arg2 == "--ask" {
+					askForTemplate = true
+				}
+			}
+			generateTemplate = true
+		}
 	}
 
 	if dirpath == "" {
@@ -31,6 +42,11 @@ func main() {
 	}
 	if metafilepath == "" {
 		metafilepath = path.Join(dirpath, "meta.json")
+	}
+
+	if generateTemplate {
+		config.GenerateTemplate(metafilepath, askForTemplate)
+		return
 	}
 
 	log.Println(metafilepath, dirpath)

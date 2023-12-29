@@ -2,11 +2,12 @@ package id3utils
 
 import (
 	"log"
-	"mp3-tag-setter/src/fileutils"
-	"mp3-tag-setter/src/model"
 	"os"
 	"path/filepath"
 	"strconv"
+
+	"github.com/enaldo1709/scripts/mp3-tag-setter/src/fileutils"
+	"github.com/enaldo1709/scripts/mp3-tag-setter/src/model"
 
 	"github.com/bogem/id3v2"
 	"github.com/gabriel-vasile/mimetype"
@@ -21,7 +22,6 @@ func WriteMetadata(filePath string, descriptor *model.Descriptor) {
 
 	setAlbum(tag, descriptor.Metadata.Album)
 	setArtist(tag, descriptor.Metadata.Artist)
-	setGenre(tag, descriptor.Metadata.Genre)
 	setYear(tag, descriptor.Metadata.Year)
 	setTracksMetadata(tag, descriptor.Metadata.Tracks, filePath, descriptor.TitleSeparator)
 	setArtWork(tag, filePath, descriptor.Metadata.AlbumArtPath)
@@ -78,6 +78,10 @@ func setTracksMetadata(tag *id3v2.Tag, tracks []model.TrackMetadata, filePath, s
 
 		meta := GetTrackMetadata(filePath, separator, tag.Title(), tracks)
 		tag.SetTitle(meta.Title)
+
+		if meta.Genre != "" {
+			setGenre(tag, meta.Genre)
+		}
 
 		if meta.TrackNumber != 0 {
 			tag.AddTextFrame(id3v2.V24CommonIDs["Track number/Position in set"], tag.DefaultEncoding(), strconv.Itoa(meta.TrackNumber))
