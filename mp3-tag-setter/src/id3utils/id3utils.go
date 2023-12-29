@@ -12,6 +12,12 @@ import (
 
 func GetTrackMetadata(filePath, separator, tagTitle string, tracks []model.TrackMetadata) model.TrackMetadata {
 	_, filename := filepath.Split(filePath)
+	for _, track := range tracks {
+		if track.FileName == filename {
+			return track
+		}
+	}
+
 	filename, _ = fileutils.GetNameAndExtension(filename)
 	caser := cases.Title(language.Spanish)
 	filename = caser.String(strings.ToLower(strings.Split(filename, separator)[0]))
