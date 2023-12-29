@@ -8,6 +8,12 @@ import (
 	"github.com/enaldo1709/scripts/mp3-tag-setter/src/model"
 )
 
+const (
+	YES_OPTION = "y"
+	NO_OPTION  = "n"
+	YES_OR_NO  = "y or n"
+)
+
 func askFor(message, defaultOpt string) string {
 	answer := ""
 
@@ -49,24 +55,25 @@ func askForYear(descriptor *model.Descriptor) {
 }
 
 func askForTracks(descriptor *model.Descriptor) {
-	createFromFolder := askFor("Create track list from folder? ", "y or n")
+	createFromFolder := askFor("Create track list from folder? ", YES_OR_NO)
 	switch createFromFolder {
-	case "y or n":
+	case YES_OR_NO:
 		break
-	case "y":
+	case YES_OPTION:
 		break
-	case "n":
+	case NO_OPTION:
 		descriptor.Metadata.Tracks = []model.TrackMetadata{}
 		for {
-			addNewTrack := askFor("Add new track to list? ", "y or n")
-			if addNewTrack == "n" {
+			addNewTrack := askFor("Add new track to list? ", YES_OR_NO)
+			if addNewTrack == NO_OPTION {
 				break
 			}
 
-			if addNewTrack != "y" {
+			if addNewTrack != YES_OPTION && addNewTrack != YES_OR_NO {
 				log.Printf("Error: invalid option %s", addNewTrack)
 				continue
 			}
+
 			meta := &model.TrackMetadata{}
 			meta.Title = askFor("Type the track name", "")
 			meta.Genre = askFor("Type the track genre", "")
