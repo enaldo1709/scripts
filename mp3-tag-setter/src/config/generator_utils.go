@@ -3,8 +3,9 @@ package config
 import (
 	"fmt"
 	"log"
-	"mp3-tag-setter/src/model"
 	"strconv"
+
+	"github.com/enaldo1709/scripts/mp3-tag-setter/src/model"
 )
 
 func askFor(message, defaultOpt string) string {

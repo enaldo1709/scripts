@@ -1,12 +1,13 @@
 package config
 
 import (
-	"mp3-tag-setter/src/fileutils"
-	"mp3-tag-setter/src/model"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
+
+	"github.com/enaldo1709/scripts/mp3-tag-setter/src/fileutils"
+	"github.com/enaldo1709/scripts/mp3-tag-setter/src/model"
 )
 
 func generateAutomaticTemplate(dirPath string) *model.Descriptor {

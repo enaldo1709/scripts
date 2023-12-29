@@ -1,10 +1,11 @@
 package id3utils
 
 import (
-	"mp3-tag-setter/src/fileutils"
-	"mp3-tag-setter/src/model"
 	"path/filepath"
 	"strings"
+
+	"github.com/enaldo1709/scripts/mp3-tag-setter/src/fileutils"
+	"github.com/enaldo1709/scripts/mp3-tag-setter/src/model"
 
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"

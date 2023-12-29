@@ -2,10 +2,11 @@ package main
 
 import (
 	"log"
-	"mp3-tag-setter/src/config"
-	"mp3-tag-setter/src/fileprocessor"
 	"os"
 	"path"
+
+	"github.com/enaldo1709/scripts/mp3-tag-setter/src/config"
+	"github.com/enaldo1709/scripts/mp3-tag-setter/src/fileprocessor"
 )
 
 var ()

@@ -4,9 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"log"
-	"mp3-tag-setter/src/model"
 	"os"
 	"path/filepath"
+
+	"github.com/enaldo1709/scripts/mp3-tag-setter/src/model"
 )
 
 func OpenMetadataConfigFile(filepath string) *model.Descriptor {

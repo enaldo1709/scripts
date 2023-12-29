@@ -2,10 +2,11 @@ package fileprocessor
 
 import (
 	"log"
-	"mp3-tag-setter/src/fileutils"
-	"mp3-tag-setter/src/id3utils"
-	"mp3-tag-setter/src/model"
 	"path"
+
+	"github.com/enaldo1709/scripts/mp3-tag-setter/src/fileutils"
+	"github.com/enaldo1709/scripts/mp3-tag-setter/src/id3utils"
+	"github.com/enaldo1709/scripts/mp3-tag-setter/src/model"
 )
 
 func LoopThroughDir(dirpath string, descriptor *model.Descriptor) {

@@ -2,11 +2,12 @@ package id3utils
 
 import (
 	"log"
-	"mp3-tag-setter/src/fileutils"
-	"mp3-tag-setter/src/model"
 	"os"
 	"path/filepath"
 	"strconv"
+
+	"github.com/enaldo1709/scripts/mp3-tag-setter/src/fileutils"
+	"github.com/enaldo1709/scripts/mp3-tag-setter/src/model"
 
 	"github.com/bogem/id3v2"
 	"github.com/gabriel-vasile/mimetype"
