@@ -4,8 +4,10 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 
@@ -30,27 +32,66 @@ var months = map[string]string{
 }
 
 func main() {
-	filename := "diomedes-diaz-local.txt"
-	lastDot := strings.LastIndex(filename, ".")
-	filetitle := filename[:lastDot]
+	if len(os.Args) < 2 {
+		log.Fatalln("Error no input file specified")
+	}
 
-	discography := ReadFile("diomedes-diaz-local.txt")
+	filePath := os.Args[1]
+	parentDir, fileName := filepath.Split(filePath)
 
+	lastDot := strings.LastIndex(fileName, ".")
+	fileTitle := fileName[:lastDot]
+
+	discography := ReadFile(filePath)
+	WriteOutJson(parentDir, fileTitle, discography)
+	WriteStatistics(discography, fileTitle, parentDir)
+}
+
+func WriteOutJson(parentDir, fileTitle string, toWrite any) {
 	buffer := new(bytes.Buffer)
+	if err := json.NewEncoder(buffer).Encode(toWrite); err != nil {
+		log.Fatal("Error encoding json content: ", err)
+	}
 
-	json.NewEncoder(buffer).Encode(discography)
-	f, err := os.Create(filetitle + ".json")
+	fileName := fmt.Sprintf("%s.%s", fileTitle, "json")
+	CreateFile(parentDir, fileName, buffer.Bytes())
+}
+
+func CreateFile(parentDir, fileName string, content []byte) {
+	f, err := os.Create(filepath.Join(parentDir, fileName))
 	if err != nil {
 		log.Fatal("Error creating output file: ", err)
 	}
 	defer f.Close()
 
-	wrote, err := f.Write(buffer.Bytes())
+	wrote, err := f.Write(content)
 	if err != nil {
 		log.Fatal("Error writing file: ", err)
 	}
 	log.Printf("Wrote %d bytes on file %s", wrote, f.Name())
+}
 
+func WriteStatistics(discography *model.Discography, fileTitle, parent string) {
+	interpreters := make(map[string]int)
+	interpreters[discography.Artist] = 1
+
+	for _, album := range discography.Albums {
+		for _, track := range album.Tracks {
+			for _, interpreter := range track.Interpreters {
+				if appearances, ok := interpreters[interpreter]; ok {
+					interpreters[interpreter] = appearances + 1
+				} else {
+					interpreters[interpreter] = 1
+				}
+			}
+		}
+	}
+
+	statistics := make(map[string]any)
+
+	statistics["interpreters"] = interpreters
+
+	WriteOutJson(parent, fmt.Sprintf("%s-statistics", fileTitle), statistics)
 }
 
 func ReadFile(filePath string) *model.Discography {

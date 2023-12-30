@@ -27,3 +27,6 @@
 
 # VS Code Files
 **.vscode**
+
+# Discography results 
+discography-parser/discographies/*.json
